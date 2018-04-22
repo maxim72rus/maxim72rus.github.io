@@ -5,7 +5,7 @@ var config = {
   staticCacheItems: [
     	"./",
 	 "./manifest.json",
-	"./image/.",
+	"./image/",
 	"./index.html",
 	"./html/aut.html",
 	"./html/calendar.html",
