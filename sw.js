@@ -1,9 +1,9 @@
 'use strict';
 
 var config = {
-  version: '1',
+  version: '0.9',
   staticCacheItems: [
-    	"./", 
+    "./",
 	"./index.html",
 	"./html/aut.html",
 	"./html/calendar.html",
@@ -23,10 +23,9 @@ var config = {
 	"./js/main.js",
 	"./js/menu.js",	
 	"./css/styles.css",
-	"./image/logo.jpg",
-	"./manifest.json"
-  ],
-  offlinePage: '/offline/'
+	"./manifest.json",
+	"./image/logo.jpg"
+  ]
 };
 
 function cacheName (key, opts) {
@@ -51,17 +50,6 @@ function fetchFromCache (event) {
     return response;
   });
 }
-
-/*function offlineResponse (resourceType, opts) {
-  if (resourceType === 'image') {
-    return new Response(opts.offlineImage,
-      { headers: { 'Content-Type': 'image/svg+xml' } }
-    );
-  } else if (resourceType === 'content') {
-    return caches.match(opts.offlinePage);
-  }
-  return undefined;
-}*/
 
 self.addEventListener('install', event => {
   function onInstall (event, opts) {
@@ -92,52 +80,14 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-
-  function shouldHandleFetch (event, opts) {
-    var request            = event.request;
-    var url                = new URL(request.url);
-    var criteria           = {
-      matchesPathPattern: opts.cachePathPattern.test(url.pathname),
-      isGETRequest      : request.method === 'GET',
-      isFromMyOrigin    : url.origin === self.location.origin
-    };
-    var failingCriteria    = Object.keys(criteria)
-      .filter(criteriaKey => !criteria[criteriaKey]);
-    return !failingCriteria.length;
-  }
-
   function onFetch (event, opts) {
     var request = event.request;
     var acceptHeader = request.headers.get('Accept');
     var resourceType = 'static';
     var cacheKey;
 
-   /* if (acceptHeader.indexOf('text/html') !== -1) {
-      resourceType = 'content';
-    } else if (acceptHeader.indexOf('image') !== -1) {
-      resourceType = 'image';
-    }*/
-
     cacheKey = cacheName(resourceType, opts);
-
-    /*if (resourceType === 'content') {
-      event.respondWith(
-        fetch(request)
-          .then(response => addToCache(cacheKey, request, response))
-          .catch(() => fetchFromCache(event))
-          .catch(() => offlineResponse(resourceType, opts))
-      );
-    } else {
-      event.respondWith(
-        fetchFromCache(event)
-          .catch(() => fetch(request))
-            .then(response => addToCache(cacheKey, request, response))
-          .catch(() => offlineResponse(resourceType, opts))
-      );
-    }*/
   }
-  //if (shouldHandleFetch(event, config)) {
-    onFetch(event, config);
-  //}
-
+  
+  onFetch(event, config);
 });
