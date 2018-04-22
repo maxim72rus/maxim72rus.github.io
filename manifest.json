@@ -1,0 +1,16 @@
+{
+	"name": "CRM 4Dev приложение для регистратора",
+	"short_name": "CRM 4Dev регистратор",
+	"lang": "ru-RU",
+	"start_url": "/",
+	"display": "standalone",
+	"theme_color": "#416379",
+	"background_color": "#416379",
+	"icons": [
+		{
+			"src": "image/192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		}
+	]
+}

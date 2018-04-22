@@ -1,0 +1,54 @@
+<!DOCTYPE html/>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="../css/styles.css" type="text/css" rel="stylesheet"/>
+        <script src="../js/jQuery v3.3.1.js"></script>    
+        <script src="../js/jQuery mobile min.js"></script>
+        <script src="../js/classes.js"></script>   
+        <script src="../js/menu.js"></script>     
+        <script src="../js/calendar-day.js"></script>    
+        <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">    
+        <link rel="manifest" href="../manifest.json">
+        <link rel="apple-touch-icon" sizes="180x180" href="../image/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../image/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../image/favicon-16x16.png"> 
+        <link rel="shortcut icon" type="image/x-icon" href="../image/favicon.ico"> 
+        <title>CRM 4Dev приложение для регистратора</title>       
+    </head>
+    <body>
+        <header>   
+                <div class='caption'>
+                    <div class='text-caption'>Каленадрь</div>
+                    <div class='button-menu'>
+                            <div class='image-menu'></div>
+                    </div>
+                </div>         
+                <div class="menu">
+                </div>
+        </header>
+        <div class="content">
+            <div class="inner-content">                
+                <table id="calendar"  border="0" cellspacing="0" cellpadding="1">
+                    <thead>
+                        <tr><td colspan="9">
+                        <tr><td rowspan="2" id='weekLeft'><div class='image-next-left'/><td>Пн<td>Вт<td>Ср<td>Чт<td>Пт<td>Сб<td>Вс<td rowspan="2"  id='weekRight'><div class='image-next-right'/>
+                        <tr><td><td><td><td><td><td><td>
+                    </thead>
+                </table>
+                <div id='container-day'>
+                    <div id='container-day-caption'> 
+                        <div id='events'> <div class='image-next-left'></div> </div>
+                        <span >События</span> 
+                        <div id='docs'> <div class='image-next-right'></div> </div>
+                    </div>
+                    <div id="container-day-content"></div>
+                </div>
+            </div>
+            
+            <div class="menu-buttons">
+                <div id='button-add-event'>+</div>
+            </div>
+        </div>    
+    </body>
+</html>
