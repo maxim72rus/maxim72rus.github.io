@@ -3,7 +3,8 @@
 var config = {
   version: '1',
   staticCacheItems: [
-    "./",
+    	"./",
+	 "./manifest.json",
 	"./index.html",
 	"./html/aut.html",
 	"./html/calendar.html",
