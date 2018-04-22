@@ -1,7 +1,7 @@
 'use strict';
 
 var config = {
-  version: '0.9',
+  version: '0.98',
   staticCacheItems: [
     "./",
 	"./index.html",
