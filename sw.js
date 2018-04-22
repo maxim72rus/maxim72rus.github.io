@@ -92,6 +92,7 @@ self.addEventListener('fetch', event => {
 	fetch(request)
           .then(response => addToCache(cacheKey, request, response))
           .catch(() => fetchFromCache(event))
+		);
   }
   
   onFetch(event, config);
