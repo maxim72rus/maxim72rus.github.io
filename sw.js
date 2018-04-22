@@ -87,6 +87,11 @@ self.addEventListener('fetch', event => {
     var cacheKey;
 
     cacheKey = cacheName(resourceType, opts);
+     
+  	event.respondWith(
+	fetch(request)
+          .then(response => addToCache(cacheKey, request, response))
+          .catch(() => fetchFromCache(event))
   }
   
   onFetch(event, config);
