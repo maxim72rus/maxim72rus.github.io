@@ -4,6 +4,7 @@ var config = {
   version: '1',
   staticCacheItems: [
     	"./",
+	"./image/",
 	"./index.html",
 	"./html/aut.html",
 	"./html/calendar.html",
