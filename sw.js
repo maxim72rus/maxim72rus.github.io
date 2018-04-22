@@ -4,7 +4,6 @@ var config = {
   version: '1',
   staticCacheItems: [
     	"./", 
-	"./image/",
 	"./index.html",
 	"./html/aut.html",
 	"./html/calendar.html",
@@ -23,7 +22,8 @@ var config = {
 	"./js/jQuery v3.3.1.js",
 	"./js/main.js",
 	"./js/menu.js",	
-	"./css/styles.css"
+	"./css/styles.css",
+	"./image/"
   ],
   offlinePage: '/offline/'
 };
