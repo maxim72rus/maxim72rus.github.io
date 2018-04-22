@@ -23,7 +23,8 @@ var config = {
 	"./js/main.js",
 	"./js/menu.js",	
 	"./css/styles.css",
-	"/image/logo.jpg"
+	"./image/logo.jpg",
+	"./manifest.json"
   ],
   offlinePage: '/offline/'
 };
