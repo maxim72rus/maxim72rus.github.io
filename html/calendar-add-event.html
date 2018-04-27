@@ -5,7 +5,8 @@
         <link href="../css/styles.css" type="text/css" rel="stylesheet"/>
         <script src="../js/jQuery v3.3.1.js"></script>    
         <script src="../js/jQuery mobile min.js"></script> 
-        <script src="../js/classes.js"></script> 
+        <script src="../js/classes.js"></script>        
+        <script src="../js/config.js"></script> 
         <script src="../js/menu.js"></script>      
         <script src="../js/calendar-add-event.js"></script>    
         <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">    
@@ -18,12 +19,14 @@
     </head>
     <body>
         <header>
-            <div class="caption">                
-                    <div class='text-caption'>Календарь</div>
-                    <div class='button-menu'>
-                            <div class='image-menu'></div>
-                    </div>
-            </div>
+                <div class="caption"> 
+                        <div class='button-menu'>
+                        </div>               
+                        <div class='text-caption'>Календарь</div>
+                        <div class='button-menu'>
+                                <div class='image-menu'></div>
+                        </div>
+                </div>
         </header>
 
         <div class="content">
@@ -45,15 +48,9 @@
                     <div class="elem-form"> 
                         <div class="signature"> Название события: </div>  
                         <input type="text" name="name"></div><br/>
-                    <div class="elem-form uch"> 
-                        <!--<div class="signature"> Участники: <br/>
-                            <div class="elem-doc"> ФИО:<div class="elem-doc-value">Владимир Владиморов Владимирович</div></div> 
-                            <div class="elem-doc"> Номер:<div class="elem-doc-value">89562314725</div></div>
-                        </div>-->
-                    </div><br/> 
-                    <div class="elem-form"> 
-                        <div class="signature"> Статус </div>  
-                        <select name="status"><option value="Свободен">Свободен</option><option value="Занят">Занят</option></select></div><br/>
+                     <div class="elem-form">  
+                        <input type="checkbox" name="allDay">На весь день
+                    </div><br/>
                 </div>
             </div>
             <div class="menu-buttons">

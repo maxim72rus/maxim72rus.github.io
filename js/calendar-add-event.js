@@ -1,33 +1,41 @@
-var url ='http://localhost/docsService/hs/api';
+
+var login = window.sessionStorage.getItem('login');
+var password = window.sessionStorage.getItem('password');
 var dateDay = new Date(window.sessionStorage.getItem('dateDay'));
 
 $(document).ready(function(){ 
     $('input[name="date"]').val(dateDay.getFullYear()+'-'+("0"+-~(dateDay.getMonth())).substr(-2,2)+'-'+("0"+-~(dateDay.getDate()-1)).substr(-2,2));
 
     $('.form-ok').click(function(e){
-        var eventNew = {};
-        eventNew.date = $('input[name="date"]').val();
-        eventNew.timeStart = $('input[name="timeStart"]').val();
-        eventNew.timeEnd = $('input[name="timeEnd"]').val();
-        eventNew.name = $('input[name="name"]').val();
-        eventNew.status = $('select[name="status"]  option:selected').text();
-        if(eventNew.date==null || eventNew.date==undefined || eventNew.date==''){
+        var date = $('input[name="date"]').val();
+        var timeStart = $('input[name="timeStart"]').val();
+        var timeEnd = $('input[name="timeEnd"]').val();
+        var name = $('input[name="name"]').val();
+        var allDay = $('input[name="allDay"]').is(':checked');
+        if(date==null || date==undefined || date==''){
             return alert("Не заполнено поле с датой!");
         }
-        if(eventNew.timeStart==null || eventNew.timeStart==undefined || eventNew.timeStart==''){
+        if(timeStart==null || timeStart==undefined || timeStart==''){
             return alert("Не заполнено поле С!");
         }
-        if(eventNew.timeEnd==null || eventNew.timeEnd==undefined || eventNew.timeEnd==''){
+        if(timeEnd==null || timeEnd==undefined || timeEnd==''){
             return alert("Не заполнено поле По!");
         }
-        if(eventNew.name==null || eventNew.name==undefined || eventNew.name==''){
+        if(name==null || name==undefined || name==''){
             return alert("Не заполнено поле с названием!");
         }
-        if(eventNew.status==null || eventNew.status==undefined || eventNew.status==''){
-            return alert("Не заполнено поле с статусом!");
-        }
+        
+        var eventNew = {};
+        eventNew["ПериодНачало"]=new Date(date+" "+timeStart).toISOString();
+        eventNew["ПериодОкончание"]=new Date(date+" "+timeEnd).toISOString();
+        eventNew["Тема"]= name;
+        eventNew["НаВесьДень"]= allDay;
+        eventNew["aut"]={
+            "login": login,
+            "password": password
+        };
         $.ajax({
-            url: url+'/addEvent',
+            url: url+'/setEvent',
             success: function(data){
                 data = JSON.stringify(data); 
                 data = JSON.parse(data);
@@ -35,8 +43,8 @@ $(document).ready(function(){
                 if(data['status']!='ok') alert(data['status']);
             },
             type: "POST",
-            error:function(){
-                alert("Error client");
+            error:function(jqXHR){
+                alert(jqXHR.statusText);
             },
             data: JSON.stringify(eventNew)
         });

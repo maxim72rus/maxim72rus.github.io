@@ -61,6 +61,5 @@ $(document).ready(function(){
     }
 
     function drowDoc(){
-        $('#'+new Date().getFullYear()+'-'+("0"+-~(new Date().getMonth())).substr(-2,2)+'-'+("0"+-~(new Date().getDate()-1)).substr(-2,2)).append('<div class="calendar-doc">(2)</div>');
     }
 });

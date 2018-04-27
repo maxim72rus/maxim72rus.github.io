@@ -7,7 +7,8 @@
 		// регистрация прошла неудачно
 		console.log('Registration failed with ' + error);
 	  });
-	};    class Doc{  
+    };   
+     class Doc{  
         constructor(id, name,status,date,booking,estate, area){
             this.id = id;
            /* this.name = name;//название
@@ -142,8 +143,10 @@
             this.startTime=startTime;
             this.endTime=endTime;
             this.name=name;
-            this.participants=participants;
+            //this.participants=participants;
             this.status=status;
+            this.allDay;
+            this.client;
         }
 
         setJSON(strJSON){
@@ -153,27 +156,33 @@
             catch(e){
                 var event = strJSON;
             }
-            for(var key in this){
-                this[key]=event[key];
-                if(key=='date'){
-                    this[key]=event[key].slice(0,10);
-                }
-            }
+
+            if(event==null || event==undefined || event=='') return;
+            
+            this.id = event['id'];
+            this.date = event['датаС'].slice(0,10);
+            this.startTime = ("0"+-~(new Date(event['датаС']).getHours()-1)).substr(-2,2)+":"+("0"+-~(new Date(event['датаС']).getMinutes()-1)).substr(-2,2);
+            this.endTime = ("0"+-~(new Date(event['датаПо']).getHours()-1)).substr(-2,2)+":"+("0"+-~(new Date(event['датаПо']).getMinutes()-1)).substr(-2,2);
+            this.name = event['Тема'];
+            this.status="Занят";
+            this.allDay = event['НаВесьДень'];
+            this.client = event['Клиент'];
             return this;
         }
         
-        drow(){            
+        drow(){ 
+                       
             $('#container-day-content').append(
             '<div class="event-day" id="'+this.id+'">'+
-            '<div class="event-day-caption">'+this.startTime+' - '+this.endTime+'</div>'+
-            '<div class="event-day-text">'+this.name+'</div>'+
+            '<div class="event-day-caption">'+(this.allDay?"На весь день":(this.startTime+' - '+this.endTime))+'</div>'+
+            '<div class="event-day-text">'+((this.name!='')?this.name:"Назваание события не указано")+'</div>'+
             '</div>');
             
-            switch(this.status){
-                case 'Свободен':
+            switch(this.client){
+                case '':
                     $('#'+this.id).addClass('free');
                     break;
-                case 'Занят':
+                default:
                     $('#'+this.id).addClass('busy');
                     break;
             }

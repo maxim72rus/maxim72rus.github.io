@@ -1,9 +1,9 @@
 'use strict';
 
 var config = {
-  version: '0.98',
+  version: '0.9',
   staticCacheItems: [
-    "./",
+  "./",
 	"./index.html",
 	"./html/aut.html",
 	"./html/calendar.html",
@@ -87,12 +87,12 @@ self.addEventListener('fetch', event => {
     var cacheKey;
 
     cacheKey = cacheName(resourceType, opts);
-     
-  	event.respondWith(
-	fetch(request)
+	
+	event.respondWith(
+        fetch(request)
           .then(response => addToCache(cacheKey, request, response))
           .catch(() => fetchFromCache(event))
-		);
+		  );
   }
   
   onFetch(event, config);

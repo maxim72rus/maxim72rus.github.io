@@ -1,5 +1,10 @@
-var url ='http://localhost/crm_20180419/hs/Docs';
+
+var login = window.sessionStorage.getItem('login');
+var password = window.sessionStorage.getItem('password');
 var docs = new ListDoc();
+
+var mode = 'read';
+var listAddDoc = [];
 
 $(document).ready(function(){
 
@@ -26,6 +31,12 @@ $(document).ready(function(){
                                         <div class="wInnerBall"></div>
                                     </div>
                                 </div>`);
+        var aut = {
+            "aut":{
+                "login": login,
+                "password": password
+            }
+        };
         switch(type){
             case 'reg':
                 docs.lists['reg'] = [];
@@ -38,9 +49,10 @@ $(document).ready(function(){
                             //alert('усё');
                         },
                         type: "POST",
-                        error:function(){
-                            alert("Error");
-                        }
+                        error:function(jqXHR){
+                            alert(jqXHR.status);
+                        },
+                        data: JSON.stringify(aut)
                     });
             break;
 
@@ -55,9 +67,10 @@ $(document).ready(function(){
                             //alert('усё');
                         },
                         type: "POST",
-                        error:function(){
-                            alert("Error");
-                        }
+                        error:function(jqXHR){
+                            alert(jqXHR.statusText);
+                        },
+                        data: JSON.stringify(aut)
                     });
             break;
 
@@ -72,9 +85,10 @@ $(document).ready(function(){
                             //alert('усё');
                         },
                         type: "POST",
-                        error:function(){
-                            alert("Error");
-                        }
+                        error:function(jqXHR){
+                            alert(jqXHR.statusText);
+                        },
+                        data: JSON.stringify(aut)
                     });
             break;
         }
@@ -85,6 +99,15 @@ $(document).ready(function(){
             alert('Не выбраны документы!');
             return;
         }
+
+        var list = {
+            "aut":{
+                "login": login,
+                "password": password
+            },
+            "list": listDocs
+        } 
+
         switch(type){
             case 'pol':
                 $.ajax({
@@ -99,10 +122,10 @@ $(document).ready(function(){
                         if(data['status']!='ok') alert(data['status']);
                     },
                     type: "POST",
-                    error:function(){
-                        alert("Error server");
+                    error:function(jqXHR){
+                        alert(jqXHR.statusText);
                     },
-                    data: JSON.stringify(listDocs)
+                    data: JSON.stringify(list)
                 });
             break;
 
@@ -119,17 +142,16 @@ $(document).ready(function(){
                         if(data['status']!='ok') alert(data['status']);
                     },
                     type: "POST",
-                    error:function(){
-                        alert("Error server");
+                    error:function(jqXHR){
+                        alert(jqXHR.statusText);
                     },
-                    data: JSON.stringify(listDocs)
+                    data: JSON.stringify(list)
                 });
             break;
         }
     }
 
-    var mode = 'read';
-    var listAddDoc = [];
+    
     $('.inner-content').on('click','.doc',function(e){ 
         if(mode=='load') return;
         if(!$(e.target).hasClass('image-select') && mode=='read' && !$(e.target).hasClass('button-doc-more-info') && $(e.target).parents('.button-doc-more-info').length==0 )      
@@ -182,17 +204,15 @@ $(document).ready(function(){
     $('.button-menu-lists').click(function(e){
         if(mode=='load') return;
         var type;
-        switch(this.className){
-            case 'button-menu-lists reg': type = 'reg'; break;
-            case 'button-menu-lists pol': type = 'pol'; break;
-            case 'button-menu-lists zareg': type = 'zareg'; break;
-        }
+        if (this.className.indexOf('reg')>-1) type = 'reg'; 
+        if (this.className.indexOf('pol')>-1) type = 'pol'; 
+        if (this.className.indexOf('zareg')>-1) type = 'zareg';
         clickButtonMenu(type);
     });
 
     function clickButtonMenu(type){
         var button = $('.'+type).get();
-        if($('.button-menu-lists.button-menu-lists-active')[0]!=button ){
+        if($('.button-menu-lists-active')[0]!=button ){
             $('.button-menu-lists.button-menu-lists-active').removeClass('button-menu-lists-active');
             loadDocs(type);
             $(button).addClass('button-menu-lists-active');

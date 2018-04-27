@@ -5,7 +5,8 @@
         <link href="../css/styles.css" type="text/css" rel="stylesheet"/>
         <script src="../js/jQuery v3.3.1.js"></script>    
         <script src="../js/jQuery mobile min.js"></script> 
-        <script src="../js/classes.js"></script> 
+        <script src="../js/classes.js"></script>        
+        <script src="../js/config.js"></script> 
         <script src="../js/menu.js"></script>      
         <script src="../js/docs.js"></script>    
         <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">    
@@ -18,26 +19,31 @@
     </head>
     <body>
         <header>
-            <div class="caption">                
+            <div class="caption"> 
+                    <div class='button-menu'>
+                    </div>               
                     <div class='text-caption'>Работа с документами</div>
                     <div class='button-menu'>
                             <div class='image-menu'></div>
                     </div>
             </div>
-        </header>
-
-        <div class="content">
-                <div class="menu-lists">
+            <div class="menu-lists">
+                <div class = "menu-buttons-content">
                     <div class="button-menu-lists reg">
-                        <div class="signature-button">Документы к регистрации</div>
+                        <div class="signature-button">Документы к регистрации<div class='image-next-right-white'></div></div>
                     </div>
                     <div class="button-menu-lists pol">
-                        <div class="signature-button">Документы к получению</div>
+                        <div class="signature-button"><div class='image-next-left-white'></div>Документы к получению<div class='image-next-right-white'></div></div>
                     </div>
                     <div class="button-menu-lists zareg">                    
-                        <div class="signature-button">Документы зарегистрированные</div>
+                        <div class="signature-button"><div class='image-next-left-white'></div>Документы зарегистрированные</div>
                     </div>
                 </div>
+            </div>
+        </header>
+        
+
+        <div class="content">
             <div style="height: calc(100% - var(--height)); overflow:auto;">
                 <div class="inner-content">
                     

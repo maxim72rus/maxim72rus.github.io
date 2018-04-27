@@ -1,42 +1,123 @@
-var url ='http://localhost/docsService/hs/api';
+
+var login = window.sessionStorage.getItem('login');
+var password = window.sessionStorage.getItem('password');
 var docs = new ListDoc();
 var dateDay = window.sessionStorage.getItem('dateDay');
 
 $(document).ready(function(){
-    var eventsDay = [];
+    var eventsDay = {};
     var months =["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
     var date = new Date(dateDay);
     var mode;
     drowWeek(date);
-    /*$.ajax({
+    //loadEvents(date.getFullYear(), date.getMonth()+1, date.getDate(),true);
+    loadDocs('pol');
+
+    function loadDocs(type, forcedLoading = false, drowing = true){
+        if(docs.lists[type].length>0 && !forcedLoading) { 
+            drowListDoc(type); return;
+        }
+        
+        var aut = {
+            "aut":{
+                "login": login,
+                "password": password
+            }
+        };
+        switch(type){
+            case 'reg':
+                docs.lists['reg'] = [];
+                $.ajax({
+                        url: url+'/getRegDocs',
+                        success: function(data){
+                            docs.lists['reg'] = docs.setJSON(data);
+                        },
+                        type: "POST",
+                        error:function(jqXHR){
+                            alert(jqXHR.status);
+                        },
+                        data: JSON.stringify(aut)
+                    });
+            break;
+
+            case 'pol':
+                docs.lists['pol'] = [];
+                $.ajax({
+                        url: url+'/getPolDocs',
+                        success: function(data){
+                            docs.lists['pol'] = docs.setJSON(data);
+                        },
+                        type: "POST",
+                        error:function(jqXHR){
+                            alert(jqXHR.statusText);
+                        },
+                        data: JSON.stringify(aut)
+                    });
+            break;
+
+            case 'zareg':
+                docs.lists['zareg'] = [];
+                $.ajax({
+                        url: url+'/getZaregDocs',
+                        success: function(data){
+                            docs.lists['zareg'] = docs.setJSON(data);
+                        },
+                        type: "POST",
+                        error:function(jqXHR){
+                            alert(jqXHR.statusText);
+                        },
+                        data: JSON.stringify(aut)
+                    });
+            break;
+        }
+    }
+
+    function loadEvents(year, month, day, forcedLoading=false){
+        if(eventsDay.hasOwnProperty(year+"-"+month) && !forcedLoading) {
+            clickDay(date);
+            return;
+        }   
+        
+        mode='load';
+        $('#container-day-content').html(`<div class="windows8">
+                                    <div class="wBall" id="wBall_1">
+                                        <div class="wInnerBall"></div>
+                                    </div>
+                                    <div class="wBall" id="wBall_2">
+                                        <div class="wInnerBall"></div>
+                                    </div>
+                                    <div class="wBall" id="wBall_3">
+                                        <div class="wInnerBall"></div>
+                                    </div>
+                                    <div class="wBall" id="wBall_4">
+                                        <div class="wInnerBall"></div>
+                                    </div>
+                                    <div class="wBall" id="wBall_5">
+                                        <div class="wInnerBall"></div>
+                                    </div>
+                                </div>`);
+        
+        eventsDay[year+"-"+month]=[];
+        $.ajax({
             url: url+'/getEvents',
             success: function(data){
                 var events = data;
                 for(var i=0; i<events.length; i++){
-                    eventsDay.push(new EventDay().setJSON(events[i]));
-                    drowWeek(date);
+                    eventsDay[year+"-"+month].push((new EventDay().setJSON(events[i])));
+                    //drowWeek(date);
                 }
+                clickDay(date);
             },
             type: "POST",
-            error:function(){
-                alert("Error");
-            }
-        }
-    );*/
-
-    /*var docs = new ListDoc();
-    $.ajax({
-            url: url+'/getDocs',
-            success: function(data){
-                docs = docs.setJSON(data);
-                $('.button-menu-lists.reg').click();
+            error:function(jqXHR){
+                alert(jqXHR.statusText);
             },
-            type: "POST",
-            error:function(){
-                alert("Error");
-            }
-        }
-    );*/
+            data: JSON.stringify({"year": year, "month": month, "day": day, "aut":{
+                "login": login,
+                "password": password
+            }})
+        });
+    }
     
     $('#weekLeft').click(function(e){
         if(date.getDate()>7){
@@ -58,7 +139,13 @@ $(document).ready(function(){
     });
 
     $('thead tr:eq(2) td').click(function(e){
-        clickDay(new Date(this.id));
+        date = new Date(this.id);
+        loadEvents(date.getFullYear(), date.getMonth()+1, date.getDate());
+        //clickDay(new Date(this.id));
+    });
+
+    $('thead tr:eq(0) td:eq(0)').click(function(e){
+        window.location.href = './calendar.html'; 
     });
 
     $('#button-add-event').click(function(e){
@@ -76,7 +163,14 @@ $(document).ready(function(){
     });
 
     $('.inner-content').on('click','.event-day',function(e){
-        window.location.href='../html/calendar-add-event.html';
+        for(var key in eventsDay){
+            for(var i=0; i<eventsDay[key].length; i++){
+                if(eventsDay[key][i].id==this.id){
+                    window.sessionStorage.setItem('event-info', JSON.stringify(eventsDay[key][i]));
+                }
+            }
+        }
+        window.location.href='../html/event-info.html';
     });
 
     var initialPoint;
@@ -168,10 +262,16 @@ $(document).ready(function(){
         $('#docs').show();
         $('#events').hide();
         $('#container-day-caption span').html('События');
-        for (var i = 0; i<eventsDay.length;i++){
-            if(date==eventsDay[i].date){
-                eventsDay[i].drow();
+        var keyEventsDay = new Date(date).getFullYear()+"-"+((new Date(date).getMonth())+1);
+        if(eventsDay.hasOwnProperty(keyEventsDay)){
+            for (var i = 0; i<eventsDay[keyEventsDay].length;i++){
+                if(date==eventsDay[keyEventsDay][i].date){
+                    eventsDay[keyEventsDay][i].drow();
+                }
             }
+        }
+        else{
+            loadEvents(new Date(date).getFullYear(), new Date(date).getMonth()+1, new Date(date).getDate());
         }
     }
     
