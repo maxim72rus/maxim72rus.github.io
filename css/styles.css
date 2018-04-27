@@ -174,7 +174,7 @@ footer{
 
 .form{
     padding: 20px;
-    height: calc(100% - var(--height));
+    /*height: calc(100% - var(--height));*/
 }
 
 .container-list-add-doc{
@@ -224,6 +224,7 @@ input:focus{
 }
 
 .signature{
+    font-weight:bold;
     font-size: 16px;
 }
 
@@ -1029,6 +1030,10 @@ tr .select{
 /*#endregion Анимация загрузки*/
 
 @media screen and (max-width: 991px) {
+    body {
+        position:fixed;
+        width: 100%;
+    }
     :root{
         --height: 60px;
         --width: 100%;
@@ -1060,6 +1065,10 @@ tr .select{
 }
 
 @media screen and (max-width: 480px) {
+    body {
+        position:fixed;
+        width: 100%;
+    }
     :root{
         --height: 35px;
         --width: 100%;
@@ -1115,11 +1124,11 @@ tr .select{
         color: var(--color-font-white);
     }
     .text-caption{
-        font-size: 20px;
+        font-size: 16px;
         padding-left: 10px;  
     }
     .form-Aut .text-caption{
-        font-size: 18px;
+        font-size: 16px;
     }
     .form-Aut{
         width: 100%;

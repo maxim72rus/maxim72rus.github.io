@@ -12,6 +12,7 @@ $(document).ready(function(){
         var timeEnd = $('input[name="timeEnd"]').val();
         var name = $('input[name="name"]').val();
         var allDay = $('input[name="allDay"]').is(':checked');
+
         if(date==null || date==undefined || date==''){
             return alert("Не заполнено поле с датой!");
         }
@@ -23,6 +24,16 @@ $(document).ready(function(){
         }
         if(name==null || name==undefined || name==''){
             return alert("Не заполнено поле с названием!");
+        }
+
+        
+        var timeStartHours = Number(timeStart.split(':')[0]);
+        var timeStartMinutes = Number(timeStart.split(':')[1]);
+        var timeEndHours = Number(timeEnd.split(':')[0]);
+        var timeEndMinutes = Number(timeEnd.split(':')[1]);
+
+        if((timeEndHours<timeStartHours) ||(timeEndHours==timeStartHours && timeEndMinutes<=timeStartMinutes)){
+            return alert("Время По не может быть меньше или равно времени С!");
         }
         
         var eventNew = {};
@@ -72,25 +83,6 @@ $(document).ready(function(){
     });
 
     $('.inner-content').on('input','input[name="timeEnd"]',function(e){
-        var time = $('input[name="timeStart"]').val();
-        var hours = Number(time.split(':')[0]);
-        var minutes = Number(time.split(':')[1]);
-        var hoursNew = Number($(this).val().split(':')[0]);
-        var minutesNew = Number($(this).val().split(':')[1]);
-        if(minutes>=30){
-            hours++;
-            minutes = minutes+30-60;
-        }
-        else{
-            minutes = minutes+30;
-            if(minutes==60) minutes=0;
-        }
-        if(hours>hoursNew || (hours==hoursNew && minutes>minutesNew) ){
-            if(hours>23){
-                $('input[name="timeEnd"]').val(time); 
-            }else{
-                $('input[name="timeEnd"]').val((("0"+-~(hours-1)).substr(-2,2)).toString()+':'+(("0"+-~(minutes-1)).substr(-2,2)).toString()); 
-            }
-        }
+       
     });
 })

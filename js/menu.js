@@ -45,6 +45,8 @@ $(document).ready(function(){
                 window.parent.location.href="./calendar.html";
                 break;                
             case 'menu-item-exit':
+                window.localStorage.removeItem('login');
+                window.localStorage.removeItem('password');
                 window.parent.location.href="./aut.html";
                 break;
             default:

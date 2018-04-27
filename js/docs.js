@@ -171,19 +171,43 @@ $(document).ready(function(){
         if($(elem).find('.info-doc').html()==''){
             var doc = docs.searchId(elem.attr('id'));
             var divInfo = $($(elem).find('.info-doc'));
+            
+            if(doc.info['Клиент']!=null && doc.info['Клиент']!=undefined && doc.info['Клиент']!=''){ 
                 divInfo.append('<div class="elem-doc">'+
-                                    '<div class="signature">'+'Клиент:'+':</div>'+
+                                    '<div class="signature">'+'Клиент'+':</div>'+
                                     '<div class="elem-doc-value">'+doc.info['Клиент']+'</div>'+
                             '</div>');
+            }
+            else{
+                divInfo.append('<div class="elem-doc">'+
+                                    '<div class="signature">'+'Клиент'+':</div>'+
+                                    '<div class="elem-doc-value">'+'Не указан'+'</div>'+
+                            '</div>');
+            }
+
+            if(doc.info['Телефон']!=null && doc.info['Телефон']!=undefined && doc.info['Телефон']!=''){                
+                divInfo.append('<div class="elem-doc">'+
+                            '<div class="signature">'+'Телефон'+':</div>'+
+                            '<div class="elem-doc-value">'+doc.info['Телефон']+'</div>'+
+                    '</div>');
+            }
+            else{
+                divInfo.append('<div class="elem-doc">'+
+                                    '<div class="signature">'+'Телефон'+':</div>'+
+                                    '<div class="elem-doc-value">'+'Не указан'+'</div>'+
+                            '</div>');
+            }
+
             if(doc.datePol!=null && doc.datePol!=undefined && doc.datePol!=''){
                 divInfo.append('<div class="elem-doc">'+
-                                    '<div class="signature">Дата получения::</div>'+
+                                    '<div class="signature">Дата получения:</div>'+
                                     '<div class="elem-doc-value">'+doc.datePol+'</div>'+
                             '</div>');
             }
+            
             if(doc.nomR!=null && doc.nomR!=undefined && doc.nomR!=''){
                 divInfo.append('<div class="elem-doc">'+
-                                    '<div class="signature">Номер расписки::</div>'+
+                                    '<div class="signature">Номер расписки:</div>'+
                                     '<div class="elem-doc-value">'+doc.nomR+'</div>'+
                             '</div>');
             }
